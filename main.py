@@ -69,6 +69,24 @@ def _return_bps(closes, i, window):
     return closes[i] * 10000 // closes[i - window] - 10000
 
 
+def _bar_is_valid(bar):
+    """A bar is usable only when its price fields and open depth are present and positive.
+
+    Malformed bars never occur in the dev window, so this guard never fires
+    there; it only keeps a corrupt feed from poisoning the closes history.
+    """
+    try:
+        for key in ("o", "h", "l", "c"):
+            if int(bar[key]) <= 0:
+                return False
+        depth = bar["o_depth"]
+        if not depth:
+            return False
+        return all(int(d) > 0 for d in depth)
+    except (KeyError, TypeError, ValueError):
+        return False
+
+
 class Bot:
     def __init__(self):
         self.closes = []
@@ -78,6 +96,10 @@ class Bot:
         self.cool_until = -1
 
     def on_batch(self, state, batch):
+        bar = next((b for b in batch.get("bars", [])
+                    if b.get("symbol") == SYMBOL), None)
+        if bar is not None and not _bar_is_valid(bar):
+            return []
         close = state.close(SYMBOL)
         if close is None:
             return []
@@ -150,6 +172,11 @@ class Bot:
 
     def _entry_leg(self, i, seq, close):
         if seq <= self.cool_until or seq > LAST_ENTRY_BAR:
+            return None
+        # Warmup: no entries until the full 150-bar momentum window exists.
+        # The trend leg already needs 150 bars and the first dev trade fires
+        # at bar 190, so this guard never fires on the dev window.
+        if i < ENTRY_WINDOW:
             return None
         if i >= ENTRY_WINDOW and _return_bps(self.closes, i, ENTRY_WINDOW) >= ENTRY_THRESHOLD and close > self.ema:
             return "T"
