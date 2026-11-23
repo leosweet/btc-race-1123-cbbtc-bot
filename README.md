@@ -1,8 +1,8 @@
 # cbBTC 1-minute trading bot — btc-race-24h-20261123-0511
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.13](https://img.shields.io/badge/Python-3.13-blue.svg)](main.py)
-[![make.fun bounty](https://img.shields.io/badge/make.fun-bounty-7C3AED.svg)](https://make.fun/bounty/btc-race-24h-20261123-0511)
+[![make.fun · btc-race-24h-20261123-0511](https://make.fun/badge/btc-race-24h-20261123-0511.svg)](https://make.fun/bounty/btc-race-24h-20261123-0511?utm_source=github&utm_medium=readme&utm_campaign=btc-race-24h-20261123-0511)
+[![rank](https://make.fun/badge/btc-race-24h-20261123-0511/leosweet/btc-race-1123-cbbtc-bot/rank.svg)](https://make.fun/bounty/btc-race-24h-20261123-0511/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=btc-race-24h-20261123-0511)
+[![reward](https://make.fun/badge/btc-race-24h-20261123-0511/leosweet/btc-race-1123-cbbtc-bot/reward.svg)](https://make.fun/bounty/btc-race-24h-20261123-0511?utm_source=github&utm_medium=readme&utm_campaign=btc-race-24h-20261123-0511)
 
 A long-only, no-leverage bot that trades Coinbase Wrapped BTC (cbBTC) against
 USDC minute by minute on the published 1-minute on-chain prices, for the
